@@ -8,6 +8,7 @@ type Props = {
   title: string;
   body: string;
   publishedAt: string;
+  category: { name: string };
 };
 
 // microCMSから特定の記事を取得する関数
@@ -30,6 +31,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ id: s
     <main className={styles.main}>
       <h1 className={styles.title}>{post.title}</h1> {/* タイトルを表示 */}
       <div className={styles.date}>{formattedDate}</div> {/* 日付を表示 */}
+      <div className={styles.category}>カテゴリー：{post.category && post.category.name}</div>
       <div className={styles.post} dangerouslySetInnerHTML={{ __html: post.body }} /> {/* 記事本文を表示 */}
     </main>
   );
