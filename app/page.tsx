@@ -9,15 +9,18 @@ type Props = {
 
 // microCMSからブログ記事を取得
 async function getBlogPosts(): Promise<Props[]> {
-  const data = await client.get<{ contents: Props[] }>({
+  const data = await client.get({
     endpoint: 'blog', // 'blog'はmicroCMSのエンドポイント名
-    queries: { fields: 'id,title'}, // idとtitleを取得
+    queries: {
+      fields: 'id,title',  // idとtitleを取得
+      limit: 5,  // 最新の5件を取得
+    },
   });
   return data.contents;
 }
 
 export default async function Home() {
-  const posts = await getBlogPosts(); // microCMSからブログ記事データを取得
+  const posts = await getBlogPosts();
 
   return (
     <main>
@@ -26,7 +29,7 @@ export default async function Home() {
         {posts.map((post) => (
           <li key={post.id}>
             <Link href={`/blog/${post.id}`}> {/* 記事へのリンクを生成 */}
-              {post.title}
+              {post.title} {/* タイトルを表示 */}
             </Link>
           </li>
         ))}
